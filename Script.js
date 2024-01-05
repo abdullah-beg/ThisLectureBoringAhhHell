@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         This lecture boring ahh hell
 // @namespace    https://github.com/abdullah-beg/
-// @version      1.0
+// @version      2.0
 // @description  How to concentrate guide (free download) (no virus) (2024 unpatched)
 // @author       abdullah-beg
 // @match        https://keats.kcl.ac.uk/*
@@ -11,23 +11,103 @@
 (function() {
     'use strict';
 
+    var width = 300;
+    var height = 600;
+    var url = "Tqne5J7XdPA";
+    var start = 60;
+
     document.querySelector('div[role=main]').classList.add("row");
     document.querySelector('.kaltura-player-container').classList.add("col");
     document.querySelector('.completion-info').innerHTML += '<button class="btn btn-outline-secondary btn-sm text-nowrap" id="concentrateMode">Concentrate Mode</button>';
+    document.querySelector('.completion-info').innerHTML += '<button class="btn btn-outline-secondary btn-sm text-nowrap" id="subwaySettings" style="display: none;">⚙️</button>';
     document.querySelector('div[role=main]').innerHTML += `
         <div id="subway" style="display: none;" class="col">
-            <iframe width="300" height="560" src="https://www.youtube.com/embed/Tqne5J7XdPA?autoplay=1&mute=1&start=60" frameborder="0" allowfullscreen></iframe>
+            <iframe width="${width}" height="${height}" src="https://www.youtube.com/embed/${url}?autoplay=1&start=${start}&mute=1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div id="settingsPopup" style="display: none; position: absolute; background-color: white; border: 3px solid #000; padding: 20px">
+            <div class="row">
+                <div class="col">
+                    <label for="width">Width:</label>
+                </div>
+                <div class="col">
+                    <input type="text" id="width" name="width" placeholder="300"><br>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="height">Height:</label>
+                </div>
+                <div class="col">
+                    <input type="text" id="height" name="height" placeholder="600"><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="url">URL:</label>
+                </div>
+                <div class="col">
+                    <input type="text" id="url" name="url" placeholder="Tqne5J7XdPA"><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="volume">Start:</label>
+                </div>
+                <div class="col">
+                    <input type="text" id="start" name="start" placeholder="60"><br>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="col" style="text-align: center">
+                <button id="applySettings">Apply✅</button>
+            </div>
+
+
         </div>
     `;
 
     var concentrateButton = document.getElementById('concentrateMode');
     var gameplay = document.getElementById('subway');
+    var settings = document.getElementById('subwaySettings');
+    var settingsPopup = document.getElementById('settingsPopup');
 
     concentrateButton.addEventListener('click', function() {
         if (gameplay.style.display == 'none') {
             gameplay.style.display = 'block';
+            settings.style.display = 'inline';
         } else {
             gameplay.style.display = 'none';
+            settings.style.display = 'none';
         }
+    });
+
+    settings.addEventListener('click', function() {
+        settingsPopup.style.display = 'block';
+    });
+
+    document.getElementById('applySettings').addEventListener('click', function() {
+        width = document.getElementById('width').value !== "" ? document.getElementById('width').value : width;
+        height = document.getElementById('height').value !== "" ? document.getElementById('height').value : height;
+        url = document.getElementById('url').value !== "" ? document.getElementById('url').value : url;
+        start = document.getElementById('start').value !== "" ? document.getElementById('start').value : start;
+
+        document.getElementById('width').value = "";
+        document.getElementById('height').value = "";
+        document.getElementById('url').value = "";
+        document.getElementById('start').value = "";
+
+        var iframe = document.querySelector('#subway iframe');
+        iframe.width = width;
+        iframe.height = height;
+        iframe.src = `https://www.youtube.com/embed/${url}?autoplay=1&start=${start}&mute=1`;
+
+
+        document.querySelector('#subway iframe').src = `https://www.youtube.com/embed/${url}?autoplay=1&start=${start}&mute=1`;
+
+        settingsPopup.style.display = 'none';
     });
 })();
