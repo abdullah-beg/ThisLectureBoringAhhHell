@@ -86,7 +86,11 @@
     });
 
     settings.addEventListener('click', function() {
-        settingsPopup.style.display = 'block';
+        if (settingsPopup.style.display == 'none') {
+            settingsPopup.style.display = 'block';
+        } else {
+            settingsPopup.style.display = 'none';
+        }
     });
 
     document.getElementById('applySettings').addEventListener('click', function() {
